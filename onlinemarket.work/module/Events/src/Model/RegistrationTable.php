@@ -4,7 +4,7 @@ namespace Events\Model;
 use Events\Listener\Event as RegEvent;
 use Events\Entity\Attendee;
 use Events\Entity\Registration;
-use Zend\Db\Sql\Sql;
+use Zend\Db\Sql\ {Sql,Where};
 
 // Table Structure:
 /*
@@ -29,7 +29,7 @@ class RegistrationTable extends Base
     {
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = $sql->select();
-        $select->from(self::$tableName)->where(['event_id' => $eventId])->order('registration_time DESC');
+        $select->from(['r' => self::$tableName])->where(['r.event_id' => $eventId])->order('r.registration_time DESC');
         return $this->tableGateway->selectWith($select);
     }
     protected function findUsingTwoQueries($eventId)
@@ -38,23 +38,22 @@ class RegistrationTable extends Base
         $redIds = [];
         $registrations = $this->findRegByEventId($eventId);
         foreach ($registrations as $reg) {
-            $regIds[] = $reg->id;
             // the iteration $registrations is "forward-only" which means we need to store it into an array
             $final[$reg->id] = $reg;
         }
-        // use Zend\Db\Sql\Sql to pull attendees for list of registrations
+        // use Zend\Db\Sql\Sql to pull attendees for list of registrations in registration_id order 
         $attendeeTable = $this->container->get(AttendeeTable::class);
         $adapter = $this->tableGateway->getAdapter();
         $sql = new Sql($adapter);
-        $where = (new Where())->in($regIds);
+        $where = (new Where())->in('registration_id', array_keys($final));
         $select = $sql->select();
-        $select->from(['a' => AttendeeTable::$tableName])
-               ->order('a.registration_id ASC')
+        $select->from(AttendeeTable::$tableName)
+               ->order('registration_id ASC')
                ->where($where);
-        $attendees = $attendeeTable->selectWith($select);
+        $attendees = $attendeeTable->tableGateway->selectWith($select);
         // match registrations against attendees
         foreach ($attendees as $attendee) {
-			$final[$attendee->registration_id]->attendees[] = $attendee->name_on_ticket;
+			$final[$attendee->registration_id]->attendees[] = $attendee;
 		}
         return $final;
     }

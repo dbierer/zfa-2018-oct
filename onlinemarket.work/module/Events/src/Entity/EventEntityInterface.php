@@ -3,5 +3,5 @@ namespace Events\Entity;
 
 interface EventEntityInterface
 {
-    public function __construct(array $data);
+    public function __construct(array $data = NULL);
 }

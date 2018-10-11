@@ -16,21 +16,6 @@ class Module
     {
         return include __DIR__ . '/../config/module.config.php';
     }
-    public function onBootstrap(MvcEvent $e)
-    {
-        $e->getApplication()->getEventManager()->attach(MvcEvent::EVENT_DISPATCH, [$this, 'switchLayout'], 999);
-    }
-    public function switchLayout(MvcEvent $e)
-    {
-        $container = $e->getApplication()->getServiceManager();
-        $routeMatch = $e->getRouteMatch();
-        if ($routeMatch->getParam('module') == __NAMESPACE__) {
-            $layout = $e->getViewModel();
-            $layout->setTemplate('events/layout/layout');
-            $layout->setVariable('authService', $container->get('login-auth-service'));
-            $layout->setVariable('acl', $container->get('access-control-market-acl'));
-        }
-    }
     public function getControllerConfig()
     {
         return [
@@ -39,6 +24,7 @@ class Module
                 Controller\AdminController::class  => function ($container, $requestedName) {
                     $controller = new $requestedName();
                     $controller->setEventTable($container->get(Model\EventTable::class));
+                    $controller->setRegTable($container->get(Model\RegistrationTable::class));
                     return $controller;
                 },
                 Controller\AjaxController::class  => function ($container, $requestedName) {

@@ -49,6 +49,9 @@ class SignupController extends AbstractActionController
     protected function processForm(array $formData, $eventId)
     {
         $formData = $this->sanitizeData($formData);
+        $regId = $this->regTable->save(new Registration($formData['registration']));
+        foreach ($formData['ticket'] as $name)
+			$this->attendeeTable->save(new Attendee(['registration_id' => $regId, 'name_on_ticket' => $name]));
     }
 
     protected function sanitizeData(array $data)

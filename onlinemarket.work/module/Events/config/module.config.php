@@ -12,8 +12,11 @@ return [
     // 'listeners' => [ ??? ],
     'service_manager' => [
         'factories' => [
-            Listener\Aggregate::class => Listener\Factory\AggregateFactory::class,
+            // Listener\Aggregate::class => Listener\Factory\AggregateFactory::class,
             //*** DATABASE ENTITIES LAB: define entity classes as invokables
+            Entity\Event::class => InvokableFactory::class,
+            Entity\Attendee::class => InvokableFactory::class,
+            Entity\Registration::class => InvokableFactory::class,
         ],
 		//*** ABSTRACT FACTORIES LAB: define an abstract factory which sets the tableGateway property for all table module classes
 		//*** NAVIGATION LAB: define navigation for events as a service container service
