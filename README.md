@@ -25,6 +25,7 @@ NOTE TO SELF: VM ???
 ## CLASS NOTES
 ### Form Annotations
 * Create (or find) an example using Annotations
+* Better docs: https://docs.zendframework.com/zend-form/quick-start/#using-annotations
 
 ### Object Hydration and Extraction
 * You could rewrite the `exchangeArray()` method to make it more generic as follows:

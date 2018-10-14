@@ -1,26 +1,24 @@
 <?php
 namespace Events\Entity;
 
+use Zend\Form\Annotation as ABC;
+
+/**
+ * @ABC\Name("attendee")
+ * @ABC\Hydrator("Zend\Hydrator\ObjectProperty")
+ */
 class Attendee extends Base
 {
+	/**
+	 * @ABC\Exclude()
+     */
     public $registration_id;
+	/**
+	 * @ABC\Name("name_on_ticket[]")
+	 * @ABC\Attributes({"type":"text","placeholder":"Name on Ticket","class":"input-xlarge"})
+     * @ABC\Options({"label":"Name:"})
+     * @ABC\Filter({"name":"StringTrim"})
+     * @ABC\Filter({"name":"StripTags"})
+     */
     public $name_on_ticket;
-    public function getRegistrationId()
-    {
-        return $this->registration_id;
-    }
-    public function setRegistrationId($id)
-    {
-        $this->registration_id = (int) $id;
-        return $this;
-    }
-    public function getNameOnTicket()
-    {
-        return $this->name_on_ticket;
-    }
-    public function setNameOnTicket($name)
-    {
-        $this->name_on_ticket = $name;
-        return $this;
-    }
 }

@@ -59,6 +59,7 @@ class RegistrationTable extends Base
     }
     public function save(Registration $reg)
     {
+		$reg->registration_time = date('Y-m-d H:i:s');
         $hydrator = $this->tableGateway->getResultSetPrototype()->getHydrator();
         $data = $hydrator->extract($reg);
         // need to get rid of this property as it's not a column in the "registration" table

@@ -21,6 +21,14 @@ return [
 		//*** ABSTRACT FACTORIES LAB: define an abstract factory which sets the tableGateway property for all table module classes
 		//*** NAVIGATION LAB: define navigation for events as a service container service
     ],
+    'view_helpers' => [
+		'factories' => [
+			Helper\FormMultiText::class => InvokableFactory::class
+		],
+		'aliases' => [
+			'formMultiText' => Helper\FormMultiText::class,
+		],
+    ],
     //*** ABSTRACT FACTORIES LAB: define Table Module classes using "ConfigAbstractFactory"
     'router' => [
         'routes' => [

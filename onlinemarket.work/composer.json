@@ -35,7 +35,8 @@
         "zendframework/zend-permissions-acl": "^2.6",
         "zendframework/zend-navigation": "^2.8",
         "zendframework/zend-log": "^2.9",
-        "firephp/firephp-core": "^0.4.0"
+        "firephp/firephp-core": "^0.4.0",
+        "zendframework/zend-code": "^3.3"
     },
     "autoload": {
         "psr-4": {
