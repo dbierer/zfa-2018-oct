@@ -3,6 +3,10 @@
 NOTE TO SELF: VM ???
 
 ## HOMEWORK
+* For Wednesday 17 Oct 2018
+  * Lab: Form Security
+  * Lab: Initializers
+  * Lab: Abstract Factories
 * For Monday 15 Oct 2018
   * Lab: Forms and Fieldsets
   * Lab: File Uploads
@@ -20,7 +24,9 @@ NOTE TO SELF: VM ???
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/3/5:  did not clarify what is "@ANO" == Zend\Form\Annotation
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/3/6:  verify the syntax for multiple validators in one line: missing {} ???
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/3/19: Profile entity should include a property "twitter"
-
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/5:  overrides ARE recommended!
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/13: need to clearly identify where this code is run!
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/25: you also need to register this factory using "abstract_factories" key
 
 ## CLASS NOTES
 ### Form Annotations
