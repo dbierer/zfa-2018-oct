@@ -19,6 +19,9 @@ return [
             Entity\Registration::class => InvokableFactory::class,
         ],
 		//*** ABSTRACT FACTORIES LAB: define an abstract factory which sets the tableGateway property for all table module classes
+		'abstract_factories' => [
+			ConfigAbstractFactory::class
+		],
 		//*** NAVIGATION LAB: define navigation for events as a service container service
     ],
     'view_helpers' => [
@@ -30,6 +33,11 @@ return [
 		],
     ],
     //*** ABSTRACT FACTORIES LAB: define Table Module classes using "ConfigAbstractFactory"
+    ConfigAbstractFactory::class => [
+        Events\Model\EventTable::class => ['events-db-adapter',Event::class,'ServiceManager'],
+        Events\Model\RegistrationTable::class => ['events-db-adapter',Registration::class,'ServiceManager'],
+        Events\Model\AttendeeTable::class => ['events-db-adapter',Attendee::class,Registration::class,'ServiceManager'],
+    ],
     'router' => [
         'routes' => [
             'events' => [

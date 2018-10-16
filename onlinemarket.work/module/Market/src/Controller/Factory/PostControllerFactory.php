@@ -12,7 +12,7 @@ class PostControllerFactory implements FactoryInterface
     {
         $controller = new PostController();
 		//*** INITIALIZERS LAB: the following line can be removed once the initializer has been created
-        $controller->setListingsTable($container->get('model-listings-table'));
+        //$controller->setListingsTable($container->get('model-listings-table'));
         $controller->setCityCodesTable($container->get('model-city-codes-table'));
         $controller->setPostForm($container->get('Market\Form\PostForm'));
 		//*** FILE UPLOAD LAB: inject file upload config into controller

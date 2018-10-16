@@ -106,5 +106,6 @@ label {
 <dt><?= $this->formLabel($post->get('captcha')); ?></dt>
 <dd><?= $this->formCaptcha($post->get('captcha')); ?><?= $this->formElementErrors($post->get('captcha')); ?></dd>
 <p style="color:white;"><?= $this->formSubmit($post->get('submit')); ?></p>
+<?php echo $this->formHidden($post->get('hash')); ?>
 <?php echo $this->form()->closeTag(); ?>
 <?php \Zend\Debug\Debug::dump($data); ?>

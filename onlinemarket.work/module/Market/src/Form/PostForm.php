@@ -98,6 +98,8 @@ class PostForm extends Form
         $captcha->setCaptcha($captchaAdapter)
             ->setLabel('Help us to prevent SPAM!')
             ->setAttribute('title', 'Help to prevent SPAM');
+	
+		$hash = new Element\Csrf('hash');
 
         $submit = new Element\Submit('submit');
         $submit->setAttribute('value', 'Post')
@@ -116,6 +118,7 @@ class PostForm extends Form
             ->add($description)
             ->add($delCode)
             ->add($captcha)
+            ->add($hash)
             ->add($submit);
     }
 
