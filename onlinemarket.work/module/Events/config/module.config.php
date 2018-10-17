@@ -34,9 +34,9 @@ return [
     ],
     //*** ABSTRACT FACTORIES LAB: define Table Module classes using "ConfigAbstractFactory"
     ConfigAbstractFactory::class => [
-        Events\Model\EventTable::class => ['events-db-adapter',Entity\Event::class,'events-service-container'],
-        Events\Model\RegistrationTable::class => ['events-db-adapter',Entity\Registration::class,'events-service-container'],
-        Events\Model\AttendeeTable::class => ['events-db-adapter',Entity\Attendee::class,Registration::class,'events-service-container'],
+        Model\EventTable::class => ['events-db-adapter',Entity\Event::class,'events-service-container'],
+        Model\AttendeeTable::class => ['events-db-adapter',Entity\Attendee::class,'events-service-container'],
+        Model\RegistrationTable::class => ['events-db-adapter',Entity\Registration::class,'events-service-container'],
     ],
     'router' => [
         'routes' => [
