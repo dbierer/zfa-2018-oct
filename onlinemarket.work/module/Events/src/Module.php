@@ -69,6 +69,9 @@ class Module
                 'events-attendee-form' => function ($container) {
 					return (new AnnotationBuilder())->createForm($container->get(Entity\Attendee::class));
 				},
+                'events-service-container' => function ($container) {
+                    return $container;
+                },
                 //*** DELEGATING HYDRATOR LAB: define a service which returns an instance of Zend\Hydrator\DelegatingHydrator
                 'events-delegating-hydrator' => function ($container) {
                     //*** DELEGATING HYDRATOR LAB: assign a "ObjectProperty" hydrator to the "Registration" entity and "ClassMethods" to the others
