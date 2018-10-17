@@ -40,6 +40,13 @@ return [
         'abstract_factories' => [
             NavigationAbstractServiceFactory::class
         ],
+        'factories' => [
+            Application\Event\AppEventAggregate::class =>
+                InvokableClassFactory::class
+        ],
+    ],
+    'listeners' => [
+            Application\Event\AppEventAggregate::class
     ],
     'view_manager' => [
         'display_not_found_reason' => true,

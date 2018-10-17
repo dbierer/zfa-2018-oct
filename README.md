@@ -3,6 +3,8 @@
 NOTE TO SELF: VM ???
 
 ## HOMEWORK
+* For Friday 19 Oct 2018
+  * Lab: Delegators
 * For Wednesday 17 Oct 2018
   * Lab: Form Security
   * Lab: Initializers
@@ -27,6 +29,7 @@ NOTE TO SELF: VM ???
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/5:  overrides ARE recommended!
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/13: need to clearly identify where this code is run!
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/25: you also need to register this factory using "abstract_factories" key
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/45: CSRF to PostForm already done in Forms lab!
 
 ## CLASS NOTES
 ### Form Annotations

@@ -26,4 +26,8 @@ class IndexController extends AbstractActionController
         //*** LOGGER LAB: an exception will be thrown because there is no corresponding view template
         return new ViewModel();
     }
+    public function triggerAction()
+    {
+        $this->getEventManager()->trigger('app-event-test', $this, ['message' => 'Surprise!']);
+    }
 }
