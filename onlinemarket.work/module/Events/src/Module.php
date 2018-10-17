@@ -74,6 +74,7 @@ class Module
                     //*** DELEGATING HYDRATOR LAB: assign a "ObjectProperty" hydrator to the "Registration" entity and "ClassMethods" to the others
                 },
                 //*** ABSTRACT FACTORIES LAB: define a single abstract factory to build these table classes
+                /*
                 Model\EventTable::class => function ($container, $requestedName) {
                     return new $requestedName($container->get('events-db-adapter'),
                                               $container->get(Event::class),
@@ -89,6 +90,7 @@ class Module
                                               $container->get(Attendee::class),
                                               $container);
                 },
+                */
             ],
         ];
     }
