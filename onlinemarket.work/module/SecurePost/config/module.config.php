@@ -8,7 +8,7 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'view_manager' => [
         'template_map' => [
-            'market/post/index' => __DIR__ . '/../view/market/post/index.phtml',
+            'registration/reg/index' => __DIR__ . '/../view/registration/reg/index.phtml',
         ],
     ],
 ];

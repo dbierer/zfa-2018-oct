@@ -14,6 +14,9 @@ class AddsCsrf implements DelegatorFactoryInterface
 	{
 		//** DELEGATORS LAB: run the callback to create the form
 		//** DELEGATORS LAB: add the secure form CSRF element to the form
+		$form = $callback();
+		$form->add(new Csrf('hash'));
+		return $form;
 	}
 }
 

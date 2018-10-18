@@ -44,7 +44,9 @@
             "Market\\": "module/Market/src/",
             "Model\\": "module/Model/src/",
 			"Events\\": "module/Events/src/",
-			"PrivateMessages\\": "module/PrivateMessages/src/"
+			"PrivateMessages\\": "module/PrivateMessages/src/",
+			"Registration\\": "module/Registration/src/",
+			"SecurePost\\": "module/SecurePost/src/"
         }
     },
     "autoload-dev": {

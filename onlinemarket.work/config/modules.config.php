@@ -29,9 +29,9 @@ return [
     'Model',
     //*** DATABASE LABS
     'Events',
-    //'Registration',
     //*** DELEGATORS LAB
-    //'SecurePost',   // disable this and CSRF element disappears from the form
+    'Registration',
+    'SecurePost',   // disable this and CSRF element disappears from the form
     //*** CACHE LAB
     //'Cache',
     //*** SESSION LAB

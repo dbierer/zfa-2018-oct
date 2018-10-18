@@ -1,8 +1,9 @@
 <?php
 namespace SecurePost;
 
-use Zend\Form\Element\Csrf;
+use Registration\Form\RegForm;
 use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 class Module
 {
@@ -15,10 +16,12 @@ class Module
 		return [
 			'factories' => [
 				//** DELEGATORS LAB: Create a new service which returns a "Zend\Form\Element\Csrf" element
+				//** DELEGATORS LAB: define a factory which calls the callback to generate the form, and adds a CSRF form element
+				AddsCsrf::class => InvokableFactory::class,
 			],
 			'delegators' => [
-				//** DELEGATORS LAB: Add a "delegators" key which points the form creation to the delegator
-				//** DELEGATORS LAB: have the delegator apply to both the Market\Form\Postform and Registration\Form\RegForm
+				//** DELEGATORS LAB: have the delegator apply to Registration\Form\RegForm
+				RegForm::class => [AddsCsrf::class],
 			],
 		];
 	}
