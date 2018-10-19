@@ -1,8 +1,15 @@
 # ZF ADVANCED Oct 2018
 
-NOTE TO SELF: VM ???
+NOTE TO SELF: Left Off Here: file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/8
+NOTE TO SELF: VM: rebuild it!!!
+NOTE TO SELF: revise test listener aggregate demo
 
 ## HOMEWORK
+* For Monday 22 Oct 2018
+  * Lab: Cache
+  * Lab: Sessions
+  * Lab: Logging
+  * Lab: Zend Mail
 * For Friday 19 Oct 2018
   * Lab: Delegators
 * For Wednesday 17 Oct 2018
@@ -30,6 +37,10 @@ NOTE TO SELF: VM ???
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/13: need to clearly identify where this code is run!
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/25: you also need to register this factory using "abstract_factories" key
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/45: CSRF to PostForm already done in Forms lab!
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/56: priority goes before message in Logger::log()
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/78: comment should read "CRAM-MD5"
+
+* RE: Delegators lab: there is an error in the original Registration module view
 
 ## CLASS NOTES
 ### Form Annotations
