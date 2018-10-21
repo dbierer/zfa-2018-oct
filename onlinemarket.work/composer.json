@@ -27,7 +27,6 @@
         "zendframework/zend-test": "*",
         "zendframework/zend-mail": "*",
         "zendframework/zend-view": "*",
-        "doctrine/doctrine-orm-module": "^1.1",
         "zendframework/zend-crypt": "^3.2",
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
         "zendframework/zend-json": "^3.0",
@@ -48,7 +47,8 @@
 			"Registration\\": "module/Registration/src/",
 			"SecurePost\\": "module/SecurePost/src/",
 			"PhpSession\\": "module/PhpSession/src/",
-			"Cache\\" : "module/Cache/src/"
+			"Cache\\" : "module/Cache/src/",
+			"Logging\\" : "module/Logging/src/"
         }
     },
     "autoload-dev": {

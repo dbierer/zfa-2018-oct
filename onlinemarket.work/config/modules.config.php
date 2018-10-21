@@ -16,7 +16,6 @@ return [
     'Zend\Form',
     'Zend\InputFilter',
     'Zend\Filter',
-    'Zend\Paginator',
     'Zend\Hydrator',
     'Zend\I18n',
     'Zend\Db',
@@ -37,7 +36,7 @@ return [
     //*** SESSION LAB
     'PhpSession',
     //*** LOGGER LAB
-    //'Logging'
+    'Logging'
     //*** EMAIL LAB
     //'Zend\Mail',
     //'Notification',

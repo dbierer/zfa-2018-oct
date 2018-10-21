@@ -1,8 +1,7 @@
 # ZF ADVANCED Oct 2018
 
 NOTE TO SELF: Left Off Here: file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/8
-NOTE TO SELF: VM: rebuild it!!!
-NOTE TO SELF: revise test listener aggregate demo
+NOTE TO SELF: finish Logging and Email labs
 
 ## HOMEWORK
 * For Monday 22 Oct 2018
@@ -41,6 +40,7 @@ NOTE TO SELF: revise test listener aggregate demo
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/78: comment should read "CRAM-MD5"
 
 * RE: Delegators lab: there is an error in the original Registration module view
+* RE: Logger Lab: you need to remove the references in `Logging/config/module.config.php` to `'listeners' => xxx`
 
 ## CLASS NOTES
 ### Form Annotations
