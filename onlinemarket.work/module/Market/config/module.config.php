@@ -120,11 +120,11 @@ return [
             Form\PostForm::class => Form\Factory\PostFormFactory::class,
             Form\PostFilter::class => Form\Factory\PostFilterFactory::class,
             //*** CACHE LAB: add missing factory for Market\Listener\CacheAggregate
-            Listener\CacheAggregate::class => '???',
+            Listener\CacheAggregate::class => Listener\Factory\CacheAggregateFactory::class,
         ],
     ],
 	//*** CACHE LAB: add entries to represent listeners defined as aggregates
-    // 'listeners' => [],
+    'listeners' => [ Listener\CacheAggregate::class ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => Controller\Factory\IndexControllerFactory::class,

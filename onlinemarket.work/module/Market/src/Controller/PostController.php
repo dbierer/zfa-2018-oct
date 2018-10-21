@@ -6,6 +6,7 @@ use Market\Event\LogEvent;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 //*** CACHE LAB: add a use statement for the listener aggregate
+use Market\Listener\CacheAggregate;
 //*** EMAIL LAB: add "use" statement to trigger email notification event
 
 class PostController extends AbstractActionController implements ListingsTableAwareInterface
@@ -14,12 +15,16 @@ class PostController extends AbstractActionController implements ListingsTableAw
     const ERROR_POST = 'ERROR: unable to validate item information';
     const ERROR_SAVE = 'ERROR: unable to save item to the database';
     const SUCCESS_POST = 'SUCCESS: item posted OK';
-
+    const ERROR_MAX    = 'ERROR: invalid form postings';
+	const MAX_INVALID = 3;
+	
     use FlashTrait;
     use PostFormTrait;
     use ListingsTableTrait;
     use CityCodesTableTrait;
 
+	protected $sessionContainer;
+	
     public function indexAction()
     {
 
@@ -46,6 +51,8 @@ class PostController extends AbstractActionController implements ListingsTableAw
                     //*** EMAIL LAB: trigger an email notification of success; also, use class constant instead of hard-coded event
                     //*** EVENTMANAGER LAB: trigger a log event and pass the online market item title as a parameter
                     //*** CACHE LAB: trigger event which signals clear cache
+                    $em = $this->getEventManager();
+                    $em->trigger(CacheAggregate::EVENT_CLEAR_CACHE, $this);
                     return $this->redirect()->toRoute('market');
 
                 } else {
@@ -58,8 +65,17 @@ class PostController extends AbstractActionController implements ListingsTableAw
 
 				//*** SESSIONS LAB: keep track of how many times an invalid form posting is made
 				//***               if the # times exceeds a limit you set, log a message and redirect home
+				if (!isset($this->sessionContainer->invalid)) {
+					$this->sessionContainer->invalid = 1;
+				} else {
+					$this->sessionContainer->invalid++;
+				}
                 $this->flashMessenger()->addMessage(self::ERROR_POST);
-
+				if ($this->sessionContainer->invalid > self::MAX_INVALID) {
+					error_log(date('Y-m-d H:i:s') . ': Max invalid form postings reached');
+					$this->flashMessenger()->addMessage(self::ERROR_MAX);
+					return $this->redirect()->toRoute('market');
+				}
             }
         }
 
@@ -69,4 +85,8 @@ class PostController extends AbstractActionController implements ListingsTableAw
 
     }
 
+	public function setSessionContainer($sessionContainer)
+	{
+		$this->sessionContainer = $sessionContainer;
+	}
 }

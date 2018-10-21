@@ -33,9 +33,9 @@ return [
     'Registration',
     'SecurePost',   // disable this and CSRF element disappears from the form
     //*** CACHE LAB
-    //'Cache',
+    'Cache',
     //*** SESSION LAB
-    //'PhpSession',
+    'PhpSession',
     //*** LOGGER LAB
     //'Logging'
     //*** EMAIL LAB

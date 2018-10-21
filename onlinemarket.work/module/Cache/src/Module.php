@@ -1,9 +1,8 @@
 <?php
-//*** CACHE LAB
 namespace Cache;
 
 use Zend\Mvc\MvcEvent;
-//*** add the appropriate "use" statements
+//*** CACHE LAB: add the appropriate "use" statements
 use Zend\Cache\StorageFactory;
 
 class Module
@@ -12,23 +11,23 @@ class Module
     {
         return [
             'services' => [
+				// override in /config/autoload/cache.local.php
                 'cache-config' => [
                     'adapter' => [
-                        //*** complete this configuration
+						//*** CACHE LAB: complete the configuration for a filesystem cache adapter
                         'name'      => 'filesystem',
-                        //*** make sure this directory exists and the PHP user can read/write
+						//*** CACHE LAB: make sure this directory exists and the PHP user can read/write
                         'options'   => ['ttl' => 3600, 'cache_dir' => realpath(__DIR__ . '/../../../data/cache')],
                     ],
                     'plugins' => [
-                        // override in /config/autoload/development.local.php
                         'exception_handler' => ['throw_exceptions' => FALSE],
                     ],
                 ],
             ],
             'factories' => [
                 'cache-adapter' => function ($container) {
-                    //*** what to return?
-                    return '???';
+					//*** CACHE LAB: what to return?
+                    return StorageFactory::factory($container->get('cache-config'));
                 },
             ],
         ];
