@@ -74,6 +74,7 @@ class PostController extends AbstractActionController implements ListingsTableAw
 				if ($this->sessionContainer->invalid > self::MAX_INVALID) {
 					error_log(date('Y-m-d H:i:s') . ': Max invalid form postings reached');
 					$this->flashMessenger()->addMessage(self::ERROR_MAX);
+					$this->sessionContainer->invalid = 1;
 					return $this->redirect()->toRoute('market');
 				}
             }

@@ -21,7 +21,8 @@ class Module
     public function startSession(MvcEvent $e)
     {
         $sm = $e->getApplication()->getServiceManager();
-        $sm->get(SessionManager::class)->start();
+		//*** SESSION LAB: set this session manager as a default for all session containers
+		Container::setDefaultManager($sm->get(SessionManager::class));
     }
     public function getServiceConfig()
     {
@@ -34,8 +35,6 @@ class Module
 					$config  = new SessionConfig();
 					//*** SESSION LAB: set storage to SessionStorage
                     $sessionManager = new SessionManager($config, $storage);
-					//*** SESSION LAB: set this session manager as a default for all session containers
-                    Container::setDefaultManager($sessionManager);
                     return $sessionManager;
                 },
                 Container::class => function($container) {

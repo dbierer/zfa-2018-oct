@@ -46,11 +46,6 @@ class Module
                     $logger->addWriter($writerFirePhp);
                     return $logger;
                 },
-                //*** DATABASE EVENTS LAB: inject database adapter platform into constructor for "logging-listener"
-                Listener::class => function ($container) {
-                    $adapter = $container->get('model-primary-adapter');
-                    return new Listener($container->get('logging-logger'), $adapter->getPlatform());
-                },
             ],
         ];
     }

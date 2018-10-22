@@ -2,6 +2,7 @@
 
 NOTE TO SELF: Left Off Here: file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/8
 NOTE TO SELF: finish Logging and Email labs
+NOTE TO SELF: add the filter to the logger module
 
 ## HOMEWORK
 * For Monday 22 Oct 2018
@@ -38,9 +39,21 @@ NOTE TO SELF: finish Logging and Email labs
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/4/45: CSRF to PostForm already done in Forms lab!
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/56: priority goes before message in Logger::log()
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/78: comment should read "CRAM-MD5"
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/78: add a slide on creating a multi-part email messsage
 
 * RE: Delegators lab: there is an error in the original Registration module view
 * RE: Logger Lab: you need to remove the references in `Logging/config/module.config.php` to `'listeners' => xxx`
+* RE: Session Lab: you *must* specify these two keys in the `module.config.php` file of the `PhpSession` module for it to work:
+```
+return [
+	'session_config' => [],
+	'session_storage' => [
+		//*** SESSION LAB: enter the type of storage to use
+		//***              this must match whatever you put in your SessionManager factory!
+		'type' => 'Zend\Session\Storage\SessionArrayStorage',
+	],
+];
+```
 
 ## CLASS NOTES
 ### Form Annotations
