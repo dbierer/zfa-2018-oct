@@ -40,6 +40,11 @@ NOTE TO SELF: add the filter to the logger module
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/56: priority goes before message in Logger::log()
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/78: comment should read "CRAM-MD5"
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/5/78: add a slide on creating a multi-part email messsage
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/9:  Assuming "BaseDN" is correct, the "DN" should be this:
+```
+CN=user1,OU=Sales,DC=example,DC=net
+```
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/35: need to rewrite the lab mentioning that both the `Login` and `Registration` modules will be updated
 
 * RE: Delegators lab: there is an error in the original Registration module view
 * RE: Logger Lab: you need to remove the references in `Logging/config/module.config.php` to `'listeners' => xxx`
