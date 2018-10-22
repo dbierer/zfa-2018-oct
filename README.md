@@ -3,8 +3,17 @@
 NOTE TO SELF: Left Off Here: file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/8
 NOTE TO SELF: finish Logging and Email labs
 NOTE TO SELF: add the filter to the logger module
+NOTE TO SELF: get guestbook project running in rebuilt VM
 
 ## HOMEWORK
+
+* For Wednesday 24 Oct 2018
+  * Lab: Authentication
+  * Lab: Password
+      * NOTE: there is now a separate `Registration` module: you will need to work with both the `Login` and `Registration` modules.
+              Create the `Password` class under `Login\Security` you will then modify the callback check auth adapter to use `verify()`.
+              You will then use the same class in the `Registration` module to save the user info with hashed password.      
+  
 * For Monday 22 Oct 2018
   * Lab: Cache
   * Lab: Sessions
