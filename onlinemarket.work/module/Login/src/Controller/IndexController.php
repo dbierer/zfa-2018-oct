@@ -53,7 +53,9 @@ class IndexController extends AbstractActionController
             } else {
                 $user = $this->loginForm->getData();
                 //*** AUTHENTICATION LAB: get the login adapter from the authentication service, set identity and credential and authenticate into $result
-                $adapter = '???';
+                $adapter = $this->authService->getAdapter();
+                $adapter->setIdentity($user->getEmail());
+                $adapter->setCredential($user->getPassword());
                 //*** LDAP LAB: trigger an event here and pass $adapter as a parameter
                 $result = $adapter->authenticate();
                 if ($result->isValid()) {
@@ -61,11 +63,14 @@ class IndexController extends AbstractActionController
                     $locale = $user->getLocale();  // comes from login form data
                     //*** AUTHENTICATION LAB: get storage and the result row object; omit "password" column: don't want that to appear in storage
                     //*** LDAP LAB: add a "switch" statement which accounts for different result objects (i.e. database or LDAP)
-                    $obj = '???';
+                    $obj = $adapter->getResultRowObject(NULL, ['password']);
                     // getResultRowObject() returns a stdClass instance ... need to hydrate into a User instance
                     $user = new User((array) $obj);
                     $user->setLocale($locale);  // reset locale from login form data
                     //*** AUTHENTICATION LAB: write Login\Model\User instance to storage
+                    $storage = $this->authService->getStorage();
+                    $storage->write($user);
+                    // success message
                     $message = self::LOGIN_SUCCESS;
                     $this->logMessage(Logger::INFO, self::LOGIN_SUCCESS . ':' . $user->getEmail());
                     return $this->redirect()->toRoute('home');

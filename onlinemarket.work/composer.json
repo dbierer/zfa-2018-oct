@@ -27,7 +27,7 @@
         "zendframework/zend-test": "*",
         "zendframework/zend-mail": "*",
         "zendframework/zend-view": "*",
-        "zendframework/zend-crypt": "^3.2",
+        "zendframework/zend-crypt": "^3.3",
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
         "zendframework/zend-json": "^3.0",
         "zendframework/zend-cache": "^2.8",
@@ -35,7 +35,8 @@
         "zendframework/zend-navigation": "^2.8",
         "zendframework/zend-log": "^2.9",
         "firephp/firephp-core": "^0.4.0",
-        "zendframework/zend-code": "^3.3"
+        "zendframework/zend-code": "^3.3",
+        "zendframework/zend-authentication": "^2.6"
     },
     "autoload": {
         "psr-4": {
@@ -48,7 +49,8 @@
 			"SecurePost\\": "module/SecurePost/src/",
 			"PhpSession\\": "module/PhpSession/src/",
 			"Cache\\" : "module/Cache/src/",
-			"Logging\\" : "module/Logging/src/"
+			"Logging\\" : "module/Logging/src/",
+			"Login\\" : "module/Login/src/"
         }
     },
     "autoload-dev": {

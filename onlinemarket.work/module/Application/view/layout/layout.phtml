@@ -46,10 +46,11 @@
 					<li><a href="<?= $this->url('market/post') ?>">Post</a></li>
 					<li><a href="<?= $this->url('events') ?>">Events</a></li>
 					<li><a href="<?= $this->url('registration') ?>">Registration</a></li>
+					<li><?php if ($user) : ?><a href="<?= $this->url('login', ['action' => 'logout']) ?>">Logout</a><?php else : ?><a href="<?= $this->url('login') ?>">Login</a><?php endif; ?></li>
 					</ul>
                     <span style="float:right;color:white;">
 						<!-- //*** AUTHENTICATION LAB: if auth service has an identity, display it, otherwise "guest" -->
-                        <?= 'Logged in as'; ?>: ???
+                        <?= 'Logged in as'; ?>: <?= ($user) ? $user->getEmail() : 'Guest' ?>
                     </span>
                 </div>
             </div>

@@ -6,8 +6,13 @@ use Zend\Db\Adapter\Adapter;
 use Login\Model\UsersTable;
 
 //*** AUTHENTICATION LAB: add required "use" statements
-//*** PASSWORD LAB: add required "use" statements
+use Zend\Authentication\Storage\Session;
+use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter;
 
+//*** PASSWORD LAB: add required "use" statements
+use Login\Security\Password;
+use Zend\Crypt\Password\Bcrypt;
 
 class Module
 {
@@ -24,7 +29,7 @@ class Module
             'services' => [
 				//*** PASSWORD LAB: modify this to use "verify()" from the Password class
                 'login-auth-callback' => function ($hash, $password) {
-                    return md5($password) == $hash;
+                    return Password::verify($password, $hash);
                 },
             ],
             'factories' => [
@@ -34,13 +39,21 @@ class Module
 				//*** AUTHENTICATION LAB: define an authentication adapter
                 'login-auth-adapter' => function ($container) {
 					//*** AUTHENTICATION LAB: return a CallbackCheckAdapter instance with these arguments: auth adapter, tablename, identity col, password col and callback
-                    return new CallbackCheckAdapter();
+                    return new CallbackCheckAdapter(
+                        $container->get('login-db-adapter'),
+                        UsersTable::$tableName,
+                        UsersTable::$identityCol,
+                        UsersTable::$passwordCol,
+                        $container->get('login-auth-callback')
+                    );
                 },
 				//*** AUTHENTICATION LAB: define an authentication service
                 'login-auth-service' => function ($container) {
+					//*** AUTHENTICATION LAB: need storage and auth adapter as arguments
                     return new AuthenticationService(
-						//*** AUTHENTICATION LAB: need storage and auth adapter as arguments
-					);
+                        // need storage and auth adapter as arguments
+                        new Session(),
+                        $container->get('login-auth-adapter'));
                 },
             ],
         ];

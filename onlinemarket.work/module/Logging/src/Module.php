@@ -46,6 +46,9 @@ class Module
                     $logger->addWriter($writerFirePhp);
                     return $logger;
                 },
+                Listener::class => function ($container) {
+					return new Listener($container->get('logging-logger'));
+				},
             ],
         ];
     }

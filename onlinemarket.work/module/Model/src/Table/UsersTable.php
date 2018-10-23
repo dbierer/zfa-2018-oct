@@ -1,6 +1,7 @@
 <?php
 namespace Model\Table;
 
+use Login\Security\Password;
 use Model\Entity\User;
 use Application\Model\AbstractTable;
 
@@ -20,7 +21,7 @@ class UsersTable extends AbstractTable
     {
         $data = $this->tableGateway->getResultSetPrototype()->getHydrator()->extract($user);
         //*** PASSWORD LAB: modify this to use the Login\Security\Password class to hash the password
-        $data['password'] = md5($data['password']);
+        $data['password'] = Password::createHash($data['password']);
         return $this->tableGateway->insert($data);
     }
 }

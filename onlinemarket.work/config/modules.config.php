@@ -36,12 +36,12 @@ return [
     //*** SESSION LAB
     'PhpSession',
     //*** LOGGER LAB
-    'Logging'
+    'Logging',
     //*** EMAIL LAB
     //'Zend\Mail',
     //'Notification',
     //*** AUTHENTICATION LAB
-    //'Login',
+    'Login',
     //*** ACL Lab
     //'AccessControl',
     //'PrivateMessages',
