@@ -1,12 +1,14 @@
 # ZF ADVANCED Oct 2018
 
 NOTE TO SELF: Left Off Here: file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/8
-NOTE TO SELF: finish Logging and Email labs
+NOTE TO SELF: finish Logging and Email labs + get guestbook working!!!
 NOTE TO SELF: add the filter to the logger module
-NOTE TO SELF: get guestbook project running in rebuilt VM
+NOTE TO SELF: lookup how JWT was stored
 
 ## HOMEWORK
-
+* For Friday 26 Oct 2018
+  * Lab: ACL
+  * Lab: Navigation
 * For Wednesday 24 Oct 2018
   * Lab: Authentication
   * Lab: Password
@@ -54,6 +56,7 @@ NOTE TO SELF: get guestbook project running in rebuilt VM
 CN=user1,OU=Sales,DC=example,DC=net
 ```
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/35: need to rewrite the lab mentioning that both the `Login` and `Registration` modules will be updated
+* file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/40: what is `$acl` ???
 
 * RE: Delegators lab: there is an error in the original Registration module view
 * RE: Logger Lab: you need to remove the references in `Logging/config/module.config.php` to `'listeners' => xxx`
@@ -68,6 +71,9 @@ return [
 	],
 ];
 ```
+* RE: Authentication Lab: get rid of field for "provider" + make it clear that "Users" comes from "Model\Entity"
+  * Clear up any confusion over this!!!
+  * In Login\Controller\IndexController remove notes for Translation and LDAP
 
 ## CLASS NOTES
 ### Form Annotations

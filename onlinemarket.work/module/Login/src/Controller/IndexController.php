@@ -59,14 +59,10 @@ class IndexController extends AbstractActionController
                 //*** LDAP LAB: trigger an event here and pass $adapter as a parameter
                 $result = $adapter->authenticate();
                 if ($result->isValid()) {
-                    //*** TRANSLATION LAB: reset locale based on login params
-                    $locale = $user->getLocale();  // comes from login form data
                     //*** AUTHENTICATION LAB: get storage and the result row object; omit "password" column: don't want that to appear in storage
-                    //*** LDAP LAB: add a "switch" statement which accounts for different result objects (i.e. database or LDAP)
                     $obj = $adapter->getResultRowObject(NULL, ['password']);
                     // getResultRowObject() returns a stdClass instance ... need to hydrate into a User instance
                     $user = new User((array) $obj);
-                    $user->setLocale($locale);  // reset locale from login form data
                     //*** AUTHENTICATION LAB: write Login\Model\User instance to storage
                     $storage = $this->authService->getStorage();
                     $storage->write($user);
