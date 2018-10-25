@@ -9,9 +9,8 @@ class PostForm extends Form
 {
     use CategoryTrait;
     use ExpireDaysTrait;
-
-    protected $captchaOptions;
-
+	use CaptchaTrait;
+	
     public function buildForm()
     {
 
@@ -32,10 +31,11 @@ class PostForm extends Form
             ->setLabelAttributes(['style'=>'display:block']);
 
         //*** FILE UPLOAD LAB: convert this to a file upload form element
-        $photo = new Element\Text('photo_filename');
+        $photo = new Element\File('photo_filename');
         $photo->setLabel('Photo')
             ->setAttribute('placeholder', 'Upload image')
             ->setLabelAttributes(['style'=>'display:block']);
+
 
         $price = new Element\Text('price');
         $price->setLabel('Price')
@@ -120,20 +120,6 @@ class PostForm extends Form
             ->add($captcha)
             ->add($hash)
             ->add($submit);
-    }
-
-    /**
-     * @return the $captchaOptions
-     */
-    public function getCaptchaOptions() {
-        return $this->captchaOptions;
-    }
-
-    /**
-     * @param field_type $captchaOptions
-     */
-    public function setCaptchaOptions($captchaOptions) {
-        $this->captchaOptions = $captchaOptions;
     }
 
 }

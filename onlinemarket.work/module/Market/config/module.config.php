@@ -110,9 +110,9 @@ return [
             //*** NAVIGATION LAB: define categories navigation
             //*** FILE UPLOAD LAB: define config for file upload validators and filter
             'market-upload-config' => [
-                'img_size'   => ['???'],
-                'file_size'  => ['???'],
-                'rename'     => ['???'],
+                'img_size'   => ['maxWidth' => 1000, 'maxHeight' => 1000],
+                'file_size'  => ['max' => 2048000],
+                'rename'     => ['target' => realpath(__DIR__ . '/../../../public/images'), 'randomize' => TRUE, 'use_upload_extension' => TRUE],
                 'img_url'    => '/images',
             ],
         ],

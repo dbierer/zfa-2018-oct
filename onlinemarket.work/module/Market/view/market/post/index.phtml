@@ -56,7 +56,7 @@ label {
 <!-- //*** FILE UPLOAD LAB: convert to the view helper for file uploads -->
 <td width="50%" style="vertical-align:top;">
 <dt><?= $this->formLabel($post->get('photo_filename')); ?></dt>
-<dd><?= $this->formText($post->get('photo_filename')); ?><?= $this->formElementErrors($post->get('photo_filename')); ?></dd>
+<dd><?= $this->formFile($post->get('photo_filename')); ?><?= $this->formElementErrors($post->get('photo_filename')); ?></dd>
 </td>
 <td width="50%" style="vertical-align:top;">
 <dt><?= $this->formLabel($post->get('price')); ?></dt>

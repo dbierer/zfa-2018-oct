@@ -10,7 +10,16 @@ class Module
 {
     public function getConfig()
     {
-        return include __DIR__ . '/../config/module.config.php';
+		//*** NOTE: this is only included as a workaround for a bug in SessionConfigFactory
+		//***       it's hard-coded to look for a key "session_config"
+		//***       same applies to SessionStorageFactory which looks for a "session_storage" key
+		return [
+			'session_config' => [],
+			'session_storage' => [
+				//*** SESSION LAB: enter the type of storage to use
+				'type' => 'Zend\Session\Storage\SessionArrayStorage',
+			],
+		];
     }
     public function onBootstrap(MvcEvent $e)
     {
@@ -34,8 +43,7 @@ class Module
 					$storage->init();
 					$config  = new SessionConfig();
 					//*** SESSION LAB: set storage to SessionStorage
-                    $sessionManager = new SessionManager($config, $storage);
-                    return $sessionManager;
+                    return new SessionManager($config, $storage);
                 },
                 Container::class => function($container) {
 					return new Container(__NAMESPACE__);

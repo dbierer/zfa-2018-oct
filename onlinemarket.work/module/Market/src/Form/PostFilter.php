@@ -1,18 +1,22 @@
 <?php
 namespace Market\Form;
 
-//*** FILE UPLOAD LAB: add appropriate "use" statements
 use Zend\InputFilter\ {InputFilter,Input};
 use Zend\Filter\ {Digits, StripTags, StringTrim, StringToLower, StringToUpper, Callback};
 use Zend\Validator\ {InArray, StringLength, Regex, Callback as CallValid};
 use Zend\I18n\Validator\ {Alnum, ToFloat};
 
+//*** FILE UPLOAD LAB: add appropriate "use" statements
+use Zend\InputFilter\FileInput;
+use Zend\Filter\File\RenameUpload;
+use Zend\Validator\File\ {FilesSize, IsImage, ImageSize};
 
 class PostFilter extends InputFilter
 {
 
     use CategoryTrait;
     use ExpireDaysTrait;
+    use UploadTrait;
 
     public function buildFilter()
     {
@@ -32,11 +36,19 @@ class PostFilter extends InputFilter
               ->attachByName('StringLength', array('min' => 1, 'max' => 128));
 
         //*** FILE UPLOAD LAB: convert filters/validators from text to file upload
-        //*** FILE UPLOAD LAB: NOTE: the "target" will need to have the category appended after form has been submitted
-        $photo = new Input('photo_filename');
-        $photo->setAllowEmpty(TRUE);
+        $photo = new FileInput('photo_filename');
+        $maxImgSize = new ImageSize($this->uploadConfig['img_size']);
+        $maxFileSize = new FilesSize($this->uploadConfig['file_size']);
+        $isImage = new IsImage();
         $photo->getValidatorChain()
-              ->attachByName('StringLength', array('min' => 1, 'max' => 4096));
+                    ->attach($maxImgSize)
+                    ->attach($maxFileSize)
+                    ->attach($isImage);
+
+        //*** FILE UPLOAD LAB: NOTE: the "target" will need to have the category appended after form has been submitted
+        $rename = new RenameUpload($this->uploadConfig['rename']);
+        $photo->getFilterChain()->attach($rename);
+
 
         $float = new Callback(function ($val) { return (float) $val; });
         $price = new Input('price');
