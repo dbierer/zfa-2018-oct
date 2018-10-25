@@ -1,8 +1,9 @@
 .vagrant/
 vendor/
-data/cache/*
-data/logs/*
 data/auth/*
+data/cache/*
+data/files/*
+data/logs/*
 !data/cache/.gitkeep
 public/captcha/*
 phpunit.xml

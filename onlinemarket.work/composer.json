@@ -31,12 +31,13 @@
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
         "zendframework/zend-json": "^3.0",
         "zendframework/zend-cache": "^2.8",
-        "zendframework/zend-permissions-acl": "^2.6",
-        "zendframework/zend-navigation": "^2.8",
+        "zendframework/zend-permissions-acl": "^2.7",
+        "zendframework/zend-navigation": "^2.9",
         "zendframework/zend-log": "^2.9",
         "firephp/firephp-core": "^0.4.0",
         "zendframework/zend-code": "^3.3",
-        "zendframework/zend-authentication": "^2.6"
+        "zendframework/zend-authentication": "^2.6",
+        "doctrine/common": "^2.9"
     },
     "autoload": {
         "psr-4": {
@@ -50,7 +51,8 @@
 			"PhpSession\\": "module/PhpSession/src/",
 			"Cache\\" : "module/Cache/src/",
 			"Logging\\" : "module/Logging/src/",
-			"Login\\" : "module/Login/src/"
+			"Login\\" : "module/Login/src/",
+		    "AccessControl\\" : "module/AccessControl/src/"
         }
     },
     "autoload-dev": {

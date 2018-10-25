@@ -88,7 +88,7 @@ class IndexController extends AbstractActionController
     public function logoutAction()
     {
         $this->authService->clearIdentity();
-        return $this->loginAction();
+        return $this->redirect()->toRoute('market');
     }
     public function setLoginForm(LoginForm $form)
     {

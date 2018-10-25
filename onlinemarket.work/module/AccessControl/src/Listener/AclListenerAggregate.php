@@ -2,19 +2,21 @@
 namespace AccessControl\Listener;
 
 use AccessControl\Acl\MarketAcl;
-use Zend\Authentication\AuthenticationService;
+use AccessControl\Traits\AclTrait;
+use Login\Traits\AuthServiceTrait;
+
 use Zend\Mvc\MvcEvent;
+use Zend\Authentication\AuthenticationService;
 use Zend\EventManager\ {AbstractListenerAggregate,EventManagerInterface};
-use Zend\Permissions\Acl\Acl;
 
 class AclListenerAggregate extends AbstractListenerAggregate
 {
 
-    protected $acl;
-    protected $authService;
-
+	use AclTrait;
+	use AuthServiceTrait;
+	
     const DEFAULT_ACTION     = 'index';
-    const DEFAULT_CONTROLLER = 'Market\Controller\IndexController';
+    const DEFAULT_CONTROLLER = 'Login\Controller\IndexController';
 
     public function attach(EventManagerInterface $e, $priority = 100)
     {
@@ -55,15 +57,5 @@ class AclListenerAggregate extends AbstractListenerAggregate
             return $response;
         }
         // otherwise: do nothing
-    }
-    public function setAcl(Acl $acl)
-    {
-        $this->acl = $acl;
-        return $this;
-    }
-    public function setAuthService(AuthenticationService $svc)
-    {
-        $this->authService = $svc;
-        return $this;
     }
 }

@@ -43,10 +43,10 @@ return [
     //*** AUTHENTICATION LAB
     'Login',
     //*** ACL Lab
-    //'AccessControl',
-    //'PrivateMessages',
+    'AccessControl',
+    'PrivateMessages',
     //*** NAVIGATION LAB
-    //'Zend\Navigation',
+    'Zend\Navigation',
     //*** REST LAB
     //'RestApi',
 ];

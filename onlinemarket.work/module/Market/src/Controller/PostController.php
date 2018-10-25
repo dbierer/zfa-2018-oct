@@ -22,7 +22,8 @@ class PostController extends AbstractActionController implements ListingsTableAw
     use ListingsTableTrait;
     use CityCodesTableTrait;
     use SessionTrait;
-
+	use UploadConfigTrait;
+	
     public function indexAction()
     {
 
@@ -84,7 +85,7 @@ class PostController extends AbstractActionController implements ListingsTableAw
 		rename($tmpFn, $finalFn);
 
 		//*** FILE UPLOAD LAB: reset $listing->photo_filename'] to final filename /images/<category>/filename
-		$listing->photo_filename = $this->uploadConfig['img_url'] . $partialFn;
+		$listing->photo_filename = str_replace('//', '/', $this->uploadConfig['img_url'] . $partialFn);
 		return $listing;
 	}
 

@@ -8,7 +8,7 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 return [
     'navigation' => [
         'default' => [
-            'messages' => ['label' => 'Messages', 'route' => 'messages', 'resource' => 'menu-messages']
+            'messages' => ['label' => 'Messages', 'route' => 'messages', 'resource' => 'menu-private-messages']
         ]
     ],
     'router' => [
@@ -53,12 +53,16 @@ return [
     'access-control-config' => [
         'resources' => [
 			//*** ACL LAB: define a resource "messages" which points to 'PrivateMessages\Controller\IndexController',
+			'private-messages-index' => Controller\IndexController::class,
             //*** NAVIGATION LAB: define a private message menu item as a resource
+            'menu-private-messages' => 'menu-private-messages',
         ],
         'rights' => [
             'user' => [
 				//*** ACL LAB: for the "messages" resource users are allowed all actions
+				'private-messages-index' => ['allow' => NULL],
                 //*** NAVIGATION LAB: users are allowed to see any messages menu resource item
+				'menu-private-messages' => ['allow' => NULL],
             ],
         ],
     ],

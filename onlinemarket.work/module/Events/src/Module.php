@@ -10,6 +10,7 @@ use Zend\Filter;
 use Zend\Form\Annotation\AnnotationBuilder;
 //*** DELEGATING HYDRATOR LAB: add the correct "use" statements
 //*** NAVIGATION LAB: add "use" statement for the ConstructedNavigationFactory
+use Zend\Navigation\Service\ConstructedNavigationFactory;
 
 class Module
 {
@@ -22,7 +23,12 @@ class Module
     {
         return [
             'factories' => [
-                Controller\IndexController::class => InvokableFactory::class,
+                Controller\IndexController::class => function ($container, $requestedName) {
+                    $controller = new $requestedName();
+                    $controller->setAcl($container->get('access-control-market-acl'));
+                    $controller->setAuthService($container->get('login-auth-service'));
+                    return $controller;
+                },
                 Controller\AdminController::class  => function ($container, $requestedName) {
                     $controller = new $requestedName();
                     $controller->setEventTable($container->get(Model\EventTable::class));
@@ -94,6 +100,10 @@ class Module
                                               $container);
                 },
                 */
+				'events-navigation' => function ($container) {
+	                $factory = new ConstructedNavigationFactory($container->get('events-nav-config'));
+                    return $factory->createService($container);
+				},
             ],
         ];
     }

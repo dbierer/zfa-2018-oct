@@ -9,7 +9,7 @@ class MarketAcl extends Acl
     {
         //*** add roles w/ inheritance
         foreach ($config['roles'] as $role => $inherits) {
-            if ($inherits) {
+            if ($inherits !== NULL) {
                 //*** add the role with inheritance
                 $this->addRole($role, $inherits);
             } else {
@@ -26,15 +26,16 @@ class MarketAcl extends Acl
         // assign rights
         foreach ($config['rights'] as $role => $assignment) {
             foreach ($assignment as $key => $rights) {
+				$assert = (isset($rights['assert'])) ? $container->get($rights['assert']) : NULL;
                 if (array_key_exists('allow', $rights)) {
-                    $assert = (isset($rights['assert'])) ? $container->get($rights['assert']) : NULL;
                     //*** assign allowed rights
-                    $this->allow($role, $resources[$key], $rights['allow'], $assert);
+                    if ($this->hasRole($role) && $this->hasResource($resources[$key]))
+						$this->allow($role, $resources[$key], $rights['allow'], $assert);
                 }
                 if (array_key_exists('deny', $rights)) {
-                    $assert = (isset($rights['assert'])) ? $container->get($rights['assert']) : NULL;
                     //*** assign denied rights
-                    $this->deny($role, $resources[$key], $rights['deny'], $assert);
+                    if ($this->hasRole($role) && $this->hasResource($resources[$key]))
+						$this->deny($role, $resources[$key], $rights['deny'], $assert);
                 }
             }
         }

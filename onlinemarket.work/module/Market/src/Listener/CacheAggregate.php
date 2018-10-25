@@ -16,15 +16,13 @@ class CacheAggregate extends AbstractListenerAggregate
     use ServiceContainerTrait;
 
 	protected $cacheKey = '';
-	protected $routeMatch;
+	protected $routeMatch = NULL;
 	protected $cacheAdapter;
 	
     public function attach(EventManagerInterface $e, $priority = 100)
     {
         //*** attach a series of listeners using the shared manager
         $shared = $e->getSharedManager();
-        //*** attach a listener to store category into the RouteMatch object
-        $this->listeners[] = $shared->attach('*', MvcEvent::EVENT_DISPATCH, [$this, 'storeRouteMatch'], $priority + 100);
         //*** attach a listener to get the page view from cache
         $this->listeners[] = $shared->attach('*', MvcEvent::EVENT_DISPATCH, [$this, 'getPageViewFromCache'], $priority);
         //*** attach a listener which listens at the very end of the cycle and check to see if the "mustCache" param has been set
@@ -32,11 +30,6 @@ class CacheAggregate extends AbstractListenerAggregate
         //*** attach a listener to clear cache if EVENT_CLEAR_CACHE is triggered
         $this->listeners[] = $shared->attach('*', self::EVENT_CLEAR_CACHE, [$this, 'clearCache'], $priority);
     }
-    public function storeRouteMatch(MvcEvent $e)
-    {
-		$this->routeMatch = $e->getRouteMatch();
-		$this->cacheKey   = $this->generateCacheKey();
-	}
     public function clearCache($e)
     {
 		$this->cacheAdapter->flush();
@@ -49,6 +42,7 @@ class CacheAggregate extends AbstractListenerAggregate
     {
 		//*** get the route match from the event
         $routeMatch = $e->getRouteMatch();
+		$this->routeMatch = $routeMatch;
 		//*** get the controller from the route match
         $controller = $routeMatch->getParam('controller');
         if ($controller == 'Market\Controller\ViewController') {
@@ -64,7 +58,7 @@ class CacheAggregate extends AbstractListenerAggregate
     public function storePageViewToCache(MvcEvent $e)
     {
         //*** complete the logic for this method
-        if ($this->routeMatch->getParam('re-cache')) {
+        if ($this->routeMatch && $this->routeMatch->getParam('re-cache')) {
 			$cacheKey = $this->generateCacheKey();
             $this->cacheAdapter->setItem($cacheKey, $e->getResponse());
             error_log(date('Y-m-d H:i:s') . ':Cached: ' . $cacheKey);

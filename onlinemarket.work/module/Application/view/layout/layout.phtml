@@ -37,10 +37,7 @@
                     </a>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <!-- //*** NAVIGATION LAB: use the "navigation()" view helper instead of hard-coding menu items -->
-                    <!-- //*** NAVIGATION LAB: get the role from the stored user identity -->
-                    <!-- //*** NAVIGATION LAB: set role and acl to navigation -->
-                    <!-- //*** NAVIGATION LAB: set UL class to "nav navbar-nav" -->
+                    <?php /* ?>
                     <ul class="nav navbar-nav">
 					<li><a href="<?= $this->url('home') ?>">Home</a></li>
 					<li><a href="<?= $this->url('market/post') ?>">Post</a></li>
@@ -48,6 +45,19 @@
 					<li><a href="<?= $this->url('registration') ?>">Registration</a></li>
 					<li><?php if ($user) : ?><a href="<?= $this->url('login', ['action' => 'logout']) ?>">Logout</a><?php else : ?><a href="<?= $this->url('login') ?>">Login</a><?php endif; ?></li>
 					</ul>
+                    <?php */ ?>
+                    <!-- //*** NAVIGATION LAB: use the "navigation()" view helper instead of hard-coding menu items -->
+                    <?php
+                        if (isset($this->acl)) {
+							//*** NAVIGATION LAB: get the role from the stored user identity
+                            $role = ($user) ? $user->getRole() : 'guest';
+							//*** NAVIGATION LAB: set role and acl to navigation
+                            $this->navigation('default')->setAcl($this->acl);
+                            $this->navigation('default')->setRole($role);
+                        }
+                    ?>
+                    <!-- //*** NAVIGATION LAB: set UL class to "nav navbar-nav" -->
+                    <?= $this->navigation('default')->menu()->setUlClass('nav navbar-nav'); ?>
                     <span style="float:right;color:white;">
 						<!-- //*** AUTHENTICATION LAB: if auth service has an identity, display it, otherwise "guest" -->
                         <?= 'Logged in as'; ?>: <?= ($user) ? $user->getEmail() : 'Guest' ?>
@@ -66,6 +76,7 @@
                         </div>
                         <div class="panel-body">
 							<!-- //*** NAVIGATION LAB: use Navigation to display list of categories -->
+							<?php /* ?>
 							<?php if (!empty($this->categories)) : ?>
 							<ul class="no_bullets">
 							<?php foreach ($this->categories as $item) : ?>
@@ -73,6 +84,9 @@
 							<?php endforeach; ?>
 							</ul>
 							<?php endif; ?>
+							<?php */ ?>
+							<!-- TODO: add logic to show / remove submenu if "Events" is active -->
+                            <?= $this->navigation()->menu('market-categories-navigation')->setUlClass('no_bullets'); ?>
                         </div>
                     </div>
                 </div>

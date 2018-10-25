@@ -1,14 +1,32 @@
+<?php $user = (!empty($this->authService)) ? $this->authService->getIdentity() : ''; ?>
+<style>
+.events-label {
+	font-weight: bold;
+	font-size: 16pt;
+}
+</style>
 <div class="col-lg-8">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title">Events</h2>
         </div>
         <div class="panel-body">
+			<?php
+				if (isset($this->acl)) {
+					//*** NAVIGATION LAB: get the role from the stored user identity
+					$role = ($user) ? $user->getRole() : 'guest';
+					//*** NAVIGATION LAB: set role and acl to navigation
+					$this->navigation('events-navigation')->setAcl($this->acl);
+					$this->navigation('events-navigation')->setRole($role);
+				}
+			?>
+			<?= $this->navigation('events-navigation')->menu()->setUlClass('no_bullets'); ?>
+			<?php /* ?>
             <h4>Sign Up Form</h4>
             <p><a class="btn btn-block btn-success btn-large" href="<?= $this->url('events/signup'); ?>">Signup &raquo;</a></p>
             <h4>Admin Area</h4>
             <p><a class="btn btn-block btn-primary btn-large" href="<?= $this->url('events/admin'); ?>">Admin &raquo;</a></p>
+			<?php */ ?>
         </div>
-    </div>
+    </div>    
 </div>
-

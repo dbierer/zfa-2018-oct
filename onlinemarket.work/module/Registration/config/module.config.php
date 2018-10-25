@@ -50,7 +50,7 @@ return [
     'access-control-config' => [
         'resources' => [
             //*** define these resources:
-            'registration' => 'Registration\Controller\RegController',
+            'registration' => Controller\RegController::class,
             //*** NAVIGATION LAB: add these resources
             'menu-registration' => 'menu-registration',
         ],

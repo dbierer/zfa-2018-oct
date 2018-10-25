@@ -17,6 +17,7 @@ class PostControllerFactory implements FactoryInterface
         $controller->setCityCodesTable($container->get('model-city-codes-table'));
         $controller->setPostForm($container->get('Market\Form\PostForm'));
 		//*** FILE UPLOAD LAB: inject file upload config into controller
+		$controller->setUploadConfig($container->get('market-upload-config'));
 		//*** SESSIONS LAB: inject a session container instance
 		$controller->setSessionContainer($container->get(Container::class));
         return $controller;

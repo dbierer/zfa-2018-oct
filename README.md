@@ -1,9 +1,9 @@
 # ZF ADVANCED Oct 2018
 
-NOTE TO SELF: Left Off Here: file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/8
-NOTE TO SELF: finish Logging and Email labs + get guestbook working!!!
-NOTE TO SELF: add the filter to the logger module
-NOTE TO SELF: lookup how JWT was stored
+## NOTE TO SELF
+* finish Email labs + get guestbook working!!!
+* add the filter to the logger module
+* lookup how JWT was stored (done: see below)
 
 ## HOMEWORK
 * For Friday 26 Oct 2018
@@ -100,3 +100,103 @@ class User
 * Table Module / Entities
   * onlinemarket.work entity classes already complete!
 * composer.json doesn't like "//"
+
+## JW Token
+Here is an example of using a listener aggregate to capture JWT info.
+```
+<?php
+namespace Application\Listener;
+
+use Application\Model\ModelTrait;
+use Application\Traits\ConfigTrait;
+use Zend\Mvc\MvcEvent;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\ListenerAggregateInterface;
+
+class Listener implements ListenerAggregateInterface
+{
+    use ConfigTrait;
+    use ModelTrait;
+    /**
+     * Attach listeners to MvcEvent::EVENT_DISPATCH
+     */
+    public function attach(EventManagerInterface $e, $priority = 100)
+    {
+        $shared = $e->getSharedManager();
+        $this->listeners[] = $shared->attach('*', MvcEvent::EVENT_ROUTE,  [$this, 'checkAuthorization'], -99);
+    }
+    /**
+     * Required by the interface
+     */
+    public function detach(EventManagerInterface $e, $priority = 100)
+    {
+        // do nothing
+    }
+    /**
+     * Check Authorized Token
+     * @param type $event
+     * @return type Description
+     */
+    public function checkAuthorization(MvcEvent $event)
+    {
+        $jsonData = [];
+        $request = $event->getRequest();
+        $response = $event->getResponse();
+        $isAuthorizationRequired = $event->getRouteMatch()->getParam('isAuthorizationRequired');
+        if ($isAuthorizationRequired) {
+            $jwtToken = $this->getJwtToken($request);
+            if ('' != $jwtToken) {                
+                if (!$this->authenticationModel->checkValidToken($jwtToken)) {
+                    $response->setStatusCode(400);
+                    $jsonData = [
+                        $this->config['ApiKeys']['status'] => $this->config['messages']['errorNotOk'],
+                        $this->config['ApiKeys']['result'] =>
+                            [$this->config['ApiKeys']['error'] => $this->config['messages']['errorUnauthToken']],
+                    ];
+                    return $this->bailOut($response, $jsonData);
+                }
+            } else {
+                $response->setStatusCode(401);
+                $jsonData = [
+                    $this->config['ApiKeys']['status'] => $this->config['messages']['errorNotOk'],
+                    $this->config['ApiKeys']['result'] =>
+                        [$this->config['ApiKeys']['error'] => $this->config['messages']['errorAuthReq']],
+                ];
+                return $this->bailOut($response, $jsonData);
+            }
+        }
+    }
+    /**
+     * Returns Response object directly thereby short-circuiting the flow
+     * @param Zend\Http\Response $response
+     * @param array $data == data to be JSON encoded
+     * @return Zend\Http\PhpEnvironment\Response
+     */
+    protected function bailOut($response, $data)
+    {
+        $response->getHeaders()->addHeaderLine('Content-Type', 'application/json');
+        $response->setContent(json_encode($data));
+        return $response;
+    }
+    /**
+     * Check Request object have Authorization token or not
+     * @param type $request
+     * @return string $jwtToken
+     */
+    protected function getJwtToken($request): string
+    {
+        $jwtToken = $request->getHeaders("Authorization") ? $request->getHeaders("Authorization")->getFieldValue() : '';
+        if ('' != $jwtToken) {
+            $jwtToken = trim($jwtToken);
+            return $jwtToken;
+        }
+        if ($request->isGet()) {
+            $jwtToken = $request->getQuery('token');
+        }
+        if ($request->isPost()) {
+            $jwtToken = $request->getPost('token');
+        }
+        return (string) $jwtToken;
+    }
+}
+```

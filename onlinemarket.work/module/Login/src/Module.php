@@ -4,6 +4,7 @@ namespace Login;
 use Zend\Mvc\MvcEvent;
 use Zend\Db\Adapter\Adapter;
 use Login\Model\UsersTable;
+use Login\Auth\CustomStorage;
 
 //*** AUTHENTICATION LAB: add required "use" statements
 use Zend\Authentication\Storage\Session;
@@ -48,11 +49,14 @@ class Module
                     );
                 },
 				//*** AUTHENTICATION LAB: define an authentication service
+				'login-auth-storage' => function ($container) {
+					return new CustomStorage($container->get('login-storage-file'));
+				},
                 'login-auth-service' => function ($container) {
 					//*** AUTHENTICATION LAB: need storage and auth adapter as arguments
                     return new AuthenticationService(
                         // need storage and auth adapter as arguments
-                        new Session(),
+                        $container->get('login-auth-storage'),
                         $container->get('login-auth-adapter'));
                 },
             ],
