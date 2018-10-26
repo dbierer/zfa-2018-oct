@@ -14,7 +14,7 @@
   * Lab: Password
       * NOTE: there is now a separate `Registration` module: you will need to work with both the `Login` and `Registration` modules.
               Create the `Password` class under `Login\Security` you will then modify the callback check auth adapter to use `verify()`.
-              You will then use the same class in the `Registration` module to save the user info with hashed password.      
+              You will then use the same class in the `Registration` module to save the user info with hashed password.
 	  * NOTE: You also need to modify `Model\Table\UsersTable::save()` to accommodate password hashing
 * For Monday 22 Oct 2018
   * Lab: Cache
@@ -57,6 +57,7 @@ CN=user1,OU=Sales,DC=example,DC=net
 ```
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/35: need to rewrite the lab mentioning that both the `Login` and `Registration` modules will be updated
 * file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/6/40: what is `$acl` ???
+file:///D:/Repos/ZF-Level-2/Course_Materials/index.html#/7/15:   not described in this course!!!
 
 * RE: Delegators lab: there is an error in the original Registration module view
 * RE: Logger Lab: you need to remove the references in `Logging/config/module.config.php` to `'listeners' => xxx`
@@ -145,7 +146,7 @@ class Listener implements ListenerAggregateInterface
         $isAuthorizationRequired = $event->getRouteMatch()->getParam('isAuthorizationRequired');
         if ($isAuthorizationRequired) {
             $jwtToken = $this->getJwtToken($request);
-            if ('' != $jwtToken) {                
+            if ('' != $jwtToken) {
                 if (!$this->authenticationModel->checkValidToken($jwtToken)) {
                     $response->setStatusCode(400);
                     $jsonData = [
