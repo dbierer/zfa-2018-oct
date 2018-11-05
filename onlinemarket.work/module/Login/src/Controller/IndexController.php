@@ -56,7 +56,6 @@ class IndexController extends AbstractActionController
                 $adapter = $this->authService->getAdapter();
                 $adapter->setIdentity($user->getEmail());
                 $adapter->setCredential($user->getPassword());
-                //*** LDAP LAB: trigger an event here and pass $adapter as a parameter
                 $result = $adapter->authenticate();
                 if ($result->isValid()) {
                     //*** AUTHENTICATION LAB: get storage and the result row object; omit "password" column: don't want that to appear in storage

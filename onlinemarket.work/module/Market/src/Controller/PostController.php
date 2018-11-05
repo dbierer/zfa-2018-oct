@@ -8,6 +8,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 //*** CACHE LAB: add a use statement for the listener aggregate
 use Market\Listener\CacheAggregate;
 //*** EMAIL LAB: add "use" statement to trigger email notification event
+use Notification\Event\NotificationEvent;
+use Notification\Traits\NotificationConfigTrait;
 
 class PostController extends AbstractActionController implements ListingsTableAwareInterface
 {
@@ -23,6 +25,7 @@ class PostController extends AbstractActionController implements ListingsTableAw
     use CityCodesTableTrait;
     use SessionTrait;
 	use UploadConfigTrait;
+    use NotificationConfigTrait;
 	
     public function indexAction()
     {
@@ -46,8 +49,14 @@ class PostController extends AbstractActionController implements ListingsTableAw
                 if ($this->listingsTable->save($listing)) {
 
                     $this->flashMessenger()->addMessage(self::SUCCESS_POST);
-                    //*** EMAIL LAB: trigger an email notification of success; also, use class constant instead of hard-coded event
-                    //*** EVENTMANAGER LAB: trigger a log event and pass the online market item title as a parameter
+                    //*** EMAIL LAB: trigger an email notification of success
+                    $this->getEventManager()
+                         ->trigger( NotificationEvent::EVENT_NOTIFICATION, 
+                                    $this, 
+                                    ['to' => $listing['email'],
+                                     'notification-config' => $this->notificationConfig,
+                                     'message' => sprintf('%s was successfully posted on %s', $listing['title'], date('Y-m-d H:i:s'))]
+                        );
                     //*** CACHE LAB: trigger event which signals clear cache
                     $em = $this->getEventManager();
                     $em->trigger(CacheAggregate::EVENT_CLEAR_CACHE, $this);

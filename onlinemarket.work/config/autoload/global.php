@@ -47,6 +47,11 @@ return [
 		    	'imgDir'	=> __DIR__ . '/../../public/captcha',
 		    	'imgUrl'	=> '/captcha',
 		    ],
+            'notification-config' => [
+                'from' => 'doug@zend.com',
+                'subject' => 'Item Posted Successfully',
+                'transport' => 'file',
+            ],
         ],
     ],
 ];

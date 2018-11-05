@@ -6,6 +6,7 @@ use Zend\Mvc\ {MvcEvent};
 //*** LOGGER LAB: add the required "use" statements
 use Zend\Log\Logger;
 use Zend\Log\Writer\ {Stream, FirePhp};
+use Zend\Log\Filter\Priority;
 
 class Module
 {
@@ -41,14 +42,13 @@ class Module
                     $writerFirePhp = new FirePhp();
                     //*** LOGGER LAB: define a logger which logs only critical and above to the PHP error log
                     $writerStream = new Stream($container->get('logging-error-log-filename'));
+                    $filter = new Priority(Logger::ALERT);
+                    $writerStream->addFilter($filter);
                     //*** LOGGER LAB: attach two writers to the same logger
                     $logger->addWriter($writerStream);
                     $logger->addWriter($writerFirePhp);
                     return $logger;
                 },
-                Listener::class => function ($container) {
-					return new Listener($container->get('logging-logger'));
-				},
             ],
         ];
     }

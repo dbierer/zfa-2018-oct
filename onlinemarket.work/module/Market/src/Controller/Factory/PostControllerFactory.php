@@ -20,6 +20,8 @@ class PostControllerFactory implements FactoryInterface
 		$controller->setUploadConfig($container->get('market-upload-config'));
 		//*** SESSIONS LAB: inject a session container instance
 		$controller->setSessionContainer($container->get(Container::class));
+        //*** EMAIL LAB: inject email config
+        $controller->setNotificationConfig($container->get('notification-config'));
         return $controller;
     }
 }

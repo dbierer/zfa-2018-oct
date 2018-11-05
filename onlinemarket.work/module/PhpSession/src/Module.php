@@ -2,49 +2,42 @@
 namespace PhpSession;
 
 use Zend\Mvc\MvcEvent;
-//*** SESSION LAB: add the appropriate "use" statements
+//*** SESSIONS LAB: add the appropriate "use" statements
 use Zend\Session\ {SessionManager, SessionConfig, Container};
-use Zend\Session\Storage\SessionArrayStorage;
 
 class Module
 {
     public function getConfig()
     {
-		//*** NOTE: this is only included as a workaround for a bug in SessionConfigFactory
-		//***       it's hard-coded to look for a key "session_config"
-		//***       same applies to SessionStorageFactory which looks for a "session_storage" key
 		return [
-			'session_config' => [],
-			'session_storage' => [
-				//*** SESSION LAB: enter the type of storage to use
-				'type' => 'Zend\Session\Storage\SessionArrayStorage',
-			],
+            //*** SESSIONS LAB: the "session_config" key is used by Zend\Session\Service\SessionConfigFactory
+            //*** SESSIONS LAB: enter the type of config to use
+			'session_config' => [ 'config_class' => 'Zend\Session\Config\SessionConfig' ],
+            //*** SESSIONS LAB: the "type" key is used by Zend\Session\Service\SessionStorageFactory
+            //*** SESSIONS LAB: enter the type of storage to use
+			'session_storage' => ['type' => 'Zend\Session\Storage\SessionArrayStorage' ],
 		];
     }
     public function onBootstrap(MvcEvent $e)
     {
         $em = $e->getApplication()->getEventManager();
-        //*** SESSION LAB: attach a listener which starts the session using the constructed session manager
+        //*** SESSIONS LAB: attach a listener which starts the session using the constructed session manager
         $em->attach(MvcEvent::EVENT_DISPATCH, [$this, 'startSession'], 9999);
     }
     public function startSession(MvcEvent $e)
     {
         $sm = $e->getApplication()->getServiceManager();
-		//*** SESSION LAB: set this session manager as a default for all session containers
+		//*** SESSIONS LAB: set this session manager as a default for all session containers
 		Container::setDefaultManager($sm->get(SessionManager::class));
     }
     public function getServiceConfig()
     {
         return [
             'factories' => [
-				//*** SESSION LAB: define the logic to build a session manager instance
-                SessionManager::class => function($container) {
-					$storage = new SessionArrayStorage();
-					$storage->init();
-					$config  = new SessionConfig();
-					//*** SESSION LAB: set storage to SessionStorage
-                    return new SessionManager($config, $storage);
-                },
+                // NOTE: Do not need to define a specific SessionManager factory.  
+                //       As long as the config keys "session_config" and "session_storage" are present, 
+                //       Zend\Session\Service\SessionManagerFactory is used
+                //       when the service container is asked to return a Zend\Session\SessionManager instance
                 Container::class => function($container) {
 					return new Container(__NAMESPACE__);
 				},
