@@ -16,7 +16,7 @@ return [
             'model-listings-table'    => Table\Factory\ListingsTableFactory::class,
             'model-city-codes-table'  => Table\Factory\CityCodesTableFactory::class,
             'model-users-table'       => Table\Factory\UsersTableFactory::class,
-            //*** AGGREGATE HYDRATOR LAB: add an entry for factory to produce aggregate hydrator
+            //*** DATABASE HYDRATOR LAB: add an entry for factory to produce listings hydrator instance
             'model-listings-hydrator' => Hydrator\Factory\ListingsHydratorFactory::class,
         ],
     ],

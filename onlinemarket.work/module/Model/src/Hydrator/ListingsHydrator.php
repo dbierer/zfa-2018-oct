@@ -1,5 +1,4 @@
 <?php
-//*** AGGREGATE HYDRATOR LAB: this needs to be defined
 namespace Model\Hydrator;
 
 use DateTime;
@@ -9,63 +8,84 @@ use Zend\Hydrator\HydratorInterface;
 
 class ListingsHydrator implements HydratorInterface
 {
-    public function hydrate(array $data, $listing)
+    protected $fieldsToUnset = ['expires','submit','cityCode','captcha','csrf','hash'];
+    public function hydrate($data, $listing)
     {
         if ($listing instanceof Listing) {
-            // calculate current date
+            // populate from $data 
             $today = new DateTime();
-            $listing->date_created = $today->format(Listing::DATE_FORMAT);
+            $vars  = get_object_vars($listing);
+            foreach ($vars as $name => $value)
+                if (isset($data[$name])) 
+                    $listing->$name = $data[$name];
+            if (!isset($listing->date_created)) {
+                // calculate current date
+                $listing->date_created = $today->format(Listing::DATE_FORMAT);
+            }
             // calculate expires date
             if (isset($data['expires'])) {
-                $expDate = clone $today;
-                switch ($data['expires']) {
-                    case 1 :
-                        $interval = 'P1D';
-                        break;
-                    case 7 :
-                        $interval = 'P1W';
-                        break;
-                    case 30 :
-                        $interval = 'P1M';
-                        break;
-                    default :
-                        $interval = FALSE;
-                }
-                if ($interval) {
-                    $expDate->add(new DateInterval($interval));
-                    $listing->date_expires = $expDate->format(Listing::DATE_FORMAT);
-                } else {
-                    $listing->date_expires = NULL;
-                }
+                $listing->date_expires = $this->calcDateExpires($listing->date_created, $data['expires']);
+            }
+            if (empty($listing->date_expires)) {
+                $listing->date_expires = 'Never';
             }
             // break out city and country from cityCode
             if (isset($data['cityCode'])) {
                 [$listing->city, $listing->country] = explode(',', $data['cityCode']);
             }
             // unset unwanted fields
-            unset($listing->expires);
-            unset($listing->submit);
-            unset($listing->cityCode);
-            unset($listing->captcha);
-            unset($listing->csrf);
+            foreach ($this->fieldsToUnset as $field) {
+                unset($listing->$field);
+            }
         }
         return $listing;
     }
 
     public function extract($listing)
     {
-        $data = [];
-        if ($listing instanceof Listing) {
-            // convert date fields into DateTime instances
-            if (isset($listings->date_created)) {
-                $data['date_created'] = new DateTime($listings->date_created);
-            }
-            if (isset($listings->date_expires)) {
-                $data['date_expires'] = new DateTime($listings->date_expires);
-            }
+        $data = get_object_vars($listing);
+        // convert date fields into DateTime instances
+        if (empty($listing->date_created))
+            $data['date_created'] = date('Y-m-d H:i:s');
+        if (isset($listing->expires) && ((int) $listing->expires) < 100)
+            $data['date_expires'] = $this->calcDateExpires($data['date_created'], (int) $listing->expires);
+        if (isset($data['cityCode'])) {
+            [$data['city'], $data['country']] = explode(',', $data['cityCode']);
+            unset($data['cityCode']);
+        }
+        // unset unwanted fields
+        foreach ($this->fieldsToUnset as $field) {
+            if (isset($data[$field])) unset($data[$field]);
         }
         return $data;
     }
+    
+    protected function calcDateExpires($dateCreated, $expNum)
+    {
+        $expDateStr = NULL;
+        $expDateObj = new DateTime($dateCreated);
+        switch ($expNum) {
+            case 1 :
+                $interval = 'P1D';
+                break;
+            case 7 :
+                $interval = 'P1W';
+                break;
+            case 30 :
+                $interval = 'P1M';
+                break;
+            default :
+                $interval = FALSE;
+        }
+        if ($interval) {
+            $expDateObj->add(new DateInterval($interval));
+            $expDateStr = $expDateObj->format(Listing::DATE_FORMAT);
+        } else {
+            $expDateStr = NULL;
+        }
+        return $expDateStr;
+    }
+    
 }
 
 // result of form posting:

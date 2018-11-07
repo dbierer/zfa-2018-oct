@@ -1,6 +1,7 @@
 <?php
 namespace Market\Controller;
 
+use Model\Entity\Listing;
 use Market\Form\UploadTrait;
 use Market\Event\LogEvent;
 use Zend\View\Model\ViewModel;
@@ -50,15 +51,13 @@ class PostController extends AbstractActionController implements ListingsTableAw
 
                     $this->flashMessenger()->addMessage(self::SUCCESS_POST);
                     //*** EMAIL LAB: trigger an email notification of success
-                    $this->getEventManager()
-                         ->trigger( NotificationEvent::EVENT_NOTIFICATION, 
-                                    $this, 
-                                    ['to' => $listing['email'],
-                                     'notification-config' => $this->notificationConfig,
-                                     'message' => sprintf('%s was successfully posted on %s', $listing['title'], date('Y-m-d H:i:s'))]
-                        );
-                    //*** CACHE LAB: trigger event which signals clear cache
+                    $this->notificationConfig['to'] = $listing->contact_email;
+                    $this->notificationConfig['message'] = sprintf('%s was successfully posted on %s', $listing->title, date('Y-m-d H:i:s'));
                     $em = $this->getEventManager();
+                    $em->trigger( NotificationEvent::EVENT_NOTIFICATION, 
+                                  $this, 
+                                  $this->notificationConfig );
+                    //*** CACHE LAB: trigger event which signals clear cache
                     $em->trigger(CacheAggregate::EVENT_CLEAR_CACHE, $this);
                     return $this->redirect()->toRoute('market');
 

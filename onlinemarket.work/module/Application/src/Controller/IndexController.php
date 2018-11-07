@@ -8,6 +8,7 @@
 namespace Application\Controller;
 
 use Exception;
+use Notification\Event\NotificationEvent;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -29,5 +30,17 @@ class IndexController extends AbstractActionController
     public function triggerAction()
     {
         $this->getEventManager()->trigger('app-event-test', $this, ['message' => 'Surprise!']);
+    }
+    public function emailAction()
+    {
+        $sm = $this->getEvent()->getApplication()->getServiceManager();
+        $notificationConfig = $sm->get('notification-config');
+        $notificationConfig['to'] = 'test@zend.com';
+        $notificationConfig['message'] = sprintf('TEST was successfully posted on %s', date('Y-m-d H:i:s'));
+        $em = $this->getEventManager();
+        $em->trigger( NotificationEvent::EVENT_NOTIFICATION, 
+                      $this, 
+                      $notificationConfig );
+        return new ViewModel(['success' => NotificationEvent::$success, 'emailDir' => $notificationConfig['transport']['options']['path']]);
     }
 }

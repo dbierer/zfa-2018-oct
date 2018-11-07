@@ -4,6 +4,7 @@ data/auth/*
 data/cache/*
 data/files/*
 data/logs/*
+data/mail/*
 !data/cache/.gitkeep
 public/captcha/*
 phpunit.xml

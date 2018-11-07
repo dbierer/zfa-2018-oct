@@ -5,6 +5,7 @@ namespace Notification\Listener;
 use Application\Traits\ServiceContainerTrait;
 use Notification\Event\NotificationEvent;
 
+use Exception;
 use Zend\Mail\Message;
 use Zend\Mime\ {Mime, Message as MimeMessage, Part as MimePart};
 use Zend\Mail\Transport\ {Smtp,SmtpOptions,File,FileOptions,SendMail};
@@ -13,7 +14,12 @@ use Zend\EventManager\ {EventInterface, EventManagerInterface,AbstractListenerAg
 class Aggregate extends AbstractListenerAggregate
 {
 
-    const DEFAULT_MESSAGE = 'Online Market Item Successfully Posted';    
+    const DEFAULT_MESSAGE    = 'Online Market Item Successfully Posted';  
+    const ERROR_SENDING      = 'ERROR: unable to send message to ';
+    const ERROR_NO_RECIPIENT = 'ERROR: must specify a recipient for the email';
+    const ERROR_NO_TRANSPORT = 'ERROR: transport type invalid or not specified';
+    const ERROR_TRANSPORT_SERVICE = 'ERROR: unable to create transport service';
+    
     use ServiceContainerTrait;
 
     public function attach(EventManagerInterface $e, $priority = 100)
@@ -25,16 +31,16 @@ class Aggregate extends AbstractListenerAggregate
     public function sendEmail(EventInterface $e)
     {
         try {
-            // get config from event $e
-            $config = $e->getParam('notify-config');
-            // set up ViewModel and template for rendering
-            $viewModel = new ViewModel();
+            $config = $e->getParams();
             // throw exception if "to" is not set
-            if (!$to = $e->getParam('to')) {
+            if (!isset($config['to'])) 
                 throw new Exception(self::ERROR_NO_RECIPIENT);
-            }
+            // get config from event $e
+            if (!isset($config['transport']['type'])) 
+                // throw exception if transport type not set
+                throw new Exception(self::ERROR_NO_TRANSPORT);
             // create HTML body
-            $html = new MimePart($e->getParam('message', self::DEFAULT_MESSAGE));
+            $html = new MimePart($config['message'], self::DEFAULT_MESSAGE);
             $html->type = Mime::TYPE_HTML;  // i.e. 'text/html'
             $html->charset = 'utf-8';
             $html->encoding = Mime::ENCODING_QUOTEDPRINTABLE;
@@ -43,31 +49,24 @@ class Aggregate extends AbstractListenerAggregate
             // set up mail message
             $message  = new Message();
             $message->setEncoding('UTF-8');
-            $message->addTo($to);
+            $message->setSubject($config['subject']);
+            $message->setBody($body);
+            $message->addTo($config['to']);
             $message->addFrom($config['from']);
             // "cc" and "bcc" are optional
             if (isset($config['cc']))
                 $message->addCc($config['cc']);
             if (isset($config['bcc']))
                 $message->addBcc($config['bcc']);
-            $message->setSubject($config['subject']);
-            $message->setBody($body);
             // get transport
-            switch ($config['transport']) {
-                case 'smtp' :
-                    $transport = $this->serviceManager->get('email-notification-transport-smtp');
-                    break;
-                case 'file' :
-                    $transport = $this->serviceManager->get('email-notification-transport-file');
-                    break;
-                default :
-                    $transport = $this->serviceManager->get('email-notification-transport-sendmail');
-            }
+            $serviceKey = 'notification-transport-' . $config['transport']['type'];
+            $transport = $this->serviceContainer->get($serviceKey);
+            
             // send
-            NotifyEvent::$success = TRUE;
             $transport->send($message);
+            NotificationEvent::$success = TRUE;
         } catch (Exception $e) {
-            error_log(__METHOD__ . ':' . __LINE__ . ':' . self::ERROR_SENDING . $to . ':' . $e->getMessage());
+            error_log(date('Y-m-d H:i:s') . ':' . __METHOD__ . ':' . self::ERROR_SENDING . $to . ':' . $e->getMessage());
             NotificationEvent::$success = FALSE;
         }
     }

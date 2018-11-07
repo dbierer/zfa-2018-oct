@@ -31,6 +31,7 @@ return [
         ],
     ],
     'view_manager' => [
+        //*** RESTAPI LAB: enable the ViewJsonStrategy in order to return JsonModels
         'strategies' => [ 'ViewJsonStrategy' ],
     ],
     'access-control-config' => [

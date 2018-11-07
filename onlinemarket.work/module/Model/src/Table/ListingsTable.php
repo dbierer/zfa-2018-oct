@@ -31,37 +31,10 @@ class ListingsTable extends TableGateway
     }
     public function save(Listing $listing)
     {
-        //*** FILE UPLOADS LAB: you will need to check the 'photo_filename' field
-        //***                   if it does not contain "http://" or "https://" you will
-        //***                   need prepend "images/<CATEGORY>" to the uploaded filename.
-        //***                   Have a look at the "listings" table to see how it works
-        $listing->date_expires = $this->getDateExpires($listing->expires);
-        [$listing->city, $listing->country] = explode(',', $listing->cityCode);
-        unset($listing->expires);
-        unset($listing->submit);
-        unset($listing->cityCode);
-        unset($listing->captcha);
-        //*** DELEGATORS LAB: remove 'csrf'
+        // NOTE: have a look at Model\Hydrator\ListingsHydrator
+        //       this class calculates expires date, breaks out city and country, and unsets unwanted fields        
         $data = $this->getResultSetPrototype()->getHydrator()->extract($listing);
         return $this->insert($data);
+
     }
-    protected function getDateExpires($expires)
-    {
-		$today = new DateTime();
-		switch ($expires) {
-			case 1 :
-				$interval = 'P1D';
-				break;
-			case 7 :
-				$interval = 'P1W';
-				break;
-			case 30 :
-				$interval = 'P1M';
-				break;
-			default :
-				$interval = 'P99Y';
-		}
-		$today->add(new DateInterval($interval));
-		return $today->format('Y-m-d');
-	}
 }

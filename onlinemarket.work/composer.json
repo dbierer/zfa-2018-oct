@@ -25,7 +25,7 @@
         "zendframework/zend-captcha": "*",
         "phpunit/phpunit": "*",
         "zendframework/zend-test": "*",
-        "zendframework/zend-mail": "*",
+        "zendframework/zend-mail": "^2.10",
         "zendframework/zend-view": "*",
         "zendframework/zend-crypt": "^3.3",
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
@@ -51,8 +51,10 @@
 			"PhpSession\\": "module/PhpSession/src/",
 			"Cache\\" : "module/Cache/src/",
 			"Logging\\" : "module/Logging/src/",
+            "Notification\\" : "module/Notification/src",
 			"Login\\" : "module/Login/src/",
-		    "AccessControl\\" : "module/AccessControl/src/"
+		    "AccessControl\\" : "module/AccessControl/src/",
+		    "RestApi\\" : "module/RestApi/src/"
         }
     },
     "autoload-dev": {

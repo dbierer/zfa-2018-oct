@@ -1,0 +1,8 @@
+<?php if ($this->success) : ?>
+Email successfully sent!
+<?php else : ?>
+Unable to send email!
+<?php endif; ?>
+<pre>
+<?php system("ls -l {$this->emailDir}"); ?>
+</pre>

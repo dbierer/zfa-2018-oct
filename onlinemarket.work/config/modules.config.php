@@ -38,8 +38,8 @@ return [
     //*** LOGGER LAB
     'Logging',
     //*** EMAIL LAB
-    //'Zend\Mail',
-    //'Notification',
+    'Zend\Mail',
+    'Notification',
     //*** AUTHENTICATION LAB
     'Login',
     //*** ACL Lab
@@ -48,5 +48,5 @@ return [
     //*** NAVIGATION LAB
     'Zend\Navigation',
     //*** REST LAB
-    //'RestApi',
+    'RestApi',
 ];
